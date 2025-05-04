@@ -1,0 +1,1610 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ResumeGenius | Professional Resume Builder</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&family=Lato:wght@300;400;700&family=Montserrat:wght@300;400;500;600;700&display=swap"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="light-mode">
+    <div class="loader">
+      <div class="spinner"></div>
+      <p>Preparing your resume builder...</p>
+    </div>
+
+    <div class="app-container">
+      <header>
+        <div class="logo">
+          <i class="fas fa-file-alt"></i>
+          <h1>ResumeGenius</h1>
+        </div>
+
+        <div class="header-actions">
+          <button
+            id="theme-toggle"
+            class="btn icon-btn"
+            title="Toggle dark mode"
+          >
+            <i class="fas fa-moon"></i>
+          </button>
+          <div class="dropdown">
+            <button class="btn tertiary-btn" id="account-btn">
+              <i class="fas fa-user-circle"></i>
+              <span>My Resumes</span>
+            </button>
+            <div class="dropdown-content">
+              <div id="saved-resumes-list">
+                <div class="dropdown-header">Saved Resumes</div>
+                <div class="saved-resumes-container">
+                  <!-- Saved resumes will be listed here -->
+                  <p class="empty-state">No saved resumes yet</p>
+                </div>
+              </div>
+              <div class="dropdown-divider"></div>
+              <button id="new-resume-btn" class="dropdown-item">
+                <i class="fas fa-plus"></i> New Resume
+              </button>
+              <button id="import-resume-btn" class="dropdown-item">
+                <i class="fas fa-file-import"></i> Import Resume
+              </button>
+            </div>
+          </div>
+          <button id="save-btn" class="btn primary-btn">
+            <i class="fas fa-save"></i>
+            <span>Save</span>
+          </button>
+          <div class="dropdown">
+            <button id="export-btn" class="btn secondary-btn">
+              <i class="fas fa-download"></i>
+              <span>Export</span>
+            </button>
+            <div class="dropdown-content">
+              <button id="download-pdf-btn" class="dropdown-item">
+                <i class="fas fa-file-pdf"></i> Download PDF
+              </button>
+              <button id="download-docx-btn" class="dropdown-item">
+                <i class="fas fa-file-word"></i> Download DOCX
+              </button>
+              <button id="download-txt-btn" class="dropdown-item">
+                <i class="fas fa-file-alt"></i> Download TXT
+              </button>
+              <button id="print-btn" class="dropdown-item">
+                <i class="fas fa-print"></i> Print
+              </button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main>
+        <div class="onboarding-overlay" id="onboarding-overlay">
+          <div class="onboarding-card">
+            <button class="close-onboarding">
+              <i class="fas fa-times"></i>
+            </button>
+            <div class="onboarding-content">
+              <h2>Welcome to ResumeGenius!</h2>
+              <p>Let's create a professional resume in just a few steps.</p>
+
+              <div class="onboarding-steps">
+                <div class="onboarding-step active" data-step="1">
+                  <div class="step-number">1</div>
+                  <div class="step-content">
+                    <h3>Choose a Template</h3>
+                    <p>
+                      Start by selecting a template that best suits your style
+                      and industry.
+                    </p>
+                  </div>
+                </div>
+                <div class="onboarding-step" data-step="2">
+                  <div class="step-number">2</div>
+                  <div class="step-content">
+                    <h3>Fill in Your Details</h3>
+                    <p>
+                      Add your personal information, work experience, education,
+                      and skills.
+                    </p>
+                  </div>
+                </div>
+                <div class="onboarding-step" data-step="3">
+                  <div class="step-number">3</div>
+                  <div class="step-content">
+                    <h3>Customize & Optimize</h3>
+                    <p>
+                      Personalize colors, fonts, and get AI-powered suggestions
+                      to improve your resume.
+                    </p>
+                  </div>
+                </div>
+                <div class="onboarding-step" data-step="4">
+                  <div class="step-number">4</div>
+                  <div class="step-content">
+                    <h3>Export & Share</h3>
+                    <p>
+                      Download your resume as PDF, DOCX, or share it directly
+                      with recruiters.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="onboarding-nav">
+                <button class="btn secondary-btn" id="onboarding-prev" disabled>
+                  Previous
+                </button>
+                <button class="btn primary-btn" id="onboarding-next">
+                  Next
+                </button>
+                <button
+                  class="btn primary-btn"
+                  id="onboarding-finish"
+                  style="display: none"
+                >
+                  Get Started
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="container">
+          <div class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+              <h2>Build Your Resume</h2>
+              <button
+                class="btn icon-btn mobile-sidebar-toggle"
+                id="mobile-sidebar-toggle"
+              >
+                <i class="fas fa-chevron-left"></i>
+              </button>
+            </div>
+
+            <div class="sidebar-nav">
+              <div class="sidebar-section">
+                <div class="section-title">
+                  <h3>
+                    <i class="fas fa-palette"></i>
+                    Choose Template
+                  </h3>
+                </div>
+                <div class="templates-carousel">
+                  <button class="carousel-btn prev">
+                    <i class="fas fa-chevron-left"></i>
+                  </button>
+                  <div class="templates-container">
+                    <div
+                      class="template-card active"
+                      data-template="professional"
+                    >
+                      <div class="template-preview professional-preview"></div>
+                      <span>Professional</span>
+                    </div>
+                    <div class="template-card" data-template="creative">
+                      <div class="template-preview creative-preview"></div>
+                      <span>Creative</span>
+                    </div>
+                    <div class="template-card" data-template="minimal">
+                      <div class="template-preview minimal-preview"></div>
+                      <span>Minimal</span>
+                    </div>
+                    <div class="template-card" data-template="modern">
+                      <div class="template-preview modern-preview"></div>
+                      <span>Modern</span>
+                    </div>
+                    <div class="template-card" data-template="executive">
+                      <div class="template-preview executive-preview"></div>
+                      <span>Executive</span>
+                    </div>
+                    <div class="template-card" data-template="tech">
+                      <div class="template-preview tech-preview"></div>
+                      <span>Tech</span>
+                    </div>
+                    <div class="template-card" data-template="academic">
+                      <div class="template-preview academic-preview"></div>
+                      <span>Academic</span>
+                    </div>
+                    <div class="template-card" data-template="elegant">
+                      <div class="template-preview elegant-preview"></div>
+                      <span>Elegant</span>
+                    </div>
+                  </div>
+                  <button class="carousel-btn next">
+                    <i class="fas fa-chevron-right"></i>
+                  </button>
+                </div>
+              </div>
+
+              <div class="sidebar-section">
+                <div class="section-title">
+                  <h3>
+                    <i class="fas fa-sliders-h"></i>
+                    Customize
+                  </h3>
+                </div>
+                <div class="customize-options">
+                  <div class="customize-option">
+                    <label>Color Theme</label>
+                    <div class="color-picker">
+                      <div
+                        class="color-swatch active"
+                        data-color="#3f51b5"
+                        style="background-color: #3f51b5"
+                      ></div>
+                      <div
+                        class="color-swatch"
+                        data-color="#009688"
+                        style="background-color: #009688"
+                      ></div>
+                      <div
+                        class="color-swatch"
+                        data-color="#f44336"
+                        style="background-color: #f44336"
+                      ></div>
+                      <div
+                        class="color-swatch"
+                        data-color="#ff9800"
+                        style="background-color: #ff9800"
+                      ></div>
+                      <div
+                        class="color-swatch"
+                        data-color="#607d8b"
+                        style="background-color: #607d8b"
+                      ></div>
+                      <div
+                        class="color-swatch"
+                        data-color="#9c27b0"
+                        style="background-color: #9c27b0"
+                      ></div>
+                      <div class="color-swatch custom" data-color="custom">
+                        <input type="color" id="custom-color" value="#3f51b5" />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="customize-option">
+                    <label>Font</label>
+                    <select id="font-selector">
+                      <option value="Roboto" selected>Roboto</option>
+                      <option value="Poppins">Poppins</option>
+                      <option value="Lato">Lato</option>
+                      <option value="Montserrat">Montserrat</option>
+                      <option value="Arial">Arial</option>
+                      <option value="Georgia">Georgia</option>
+                    </select>
+                  </div>
+                  <div class="customize-option">
+                    <label>Font Size</label>
+                    <div class="slider-container">
+                      <input
+                        type="range"
+                        id="font-size"
+                        min="90"
+                        max="110"
+                        value="100"
+                        class="slider"
+                      />
+                      <span id="font-size-value">100%</span>
+                    </div>
+                  </div>
+                  <div class="customize-option">
+                    <label>Spacing</label>
+                    <div class="slider-container">
+                      <input
+                        type="range"
+                        id="spacing"
+                        min="90"
+                        max="110"
+                        value="100"
+                        class="slider"
+                      />
+                      <span id="spacing-value">100%</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="sidebar-section">
+                <div class="section-title">
+                  <h3>
+                    <i class="fas fa-edit"></i>
+                    Content Sections
+                  </h3>
+                </div>
+                <div class="sections-list" id="sections-list">
+                  <div class="section-item active" data-section="personal">
+                    <i class="fas fa-user-circle"></i>
+                    <span>Personal Info</span>
+                    <div class="section-status">
+                      <i class="fas fa-check-circle"></i>
+                    </div>
+                  </div>
+                  <div class="section-item" data-section="summary">
+                    <i class="fas fa-align-left"></i>
+                    <span>Professional Summary</span>
+                    <div class="section-status"></div>
+                  </div>
+                  <div class="section-item" data-section="experience">
+                    <i class="fas fa-briefcase"></i>
+                    <span>Work Experience</span>
+                    <div class="section-status"></div>
+                  </div>
+                  <div class="section-item" data-section="education">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>Education</span>
+                    <div class="section-status"></div>
+                  </div>
+                  <div class="section-item" data-section="skills">
+                    <i class="fas fa-tools"></i>
+                    <span>Skills</span>
+                    <div class="section-status"></div>
+                  </div>
+                  <div class="section-item" data-section="projects">
+                    <i class="fas fa-code-branch"></i>
+                    <span>Projects</span>
+                    <div class="section-status"></div>
+                  </div>
+                  <div class="section-item" data-section="languages">
+                    <i class="fas fa-language"></i>
+                    <span>Languages</span>
+                    <div class="section-status"></div>
+                  </div>
+                  <div class="section-item" data-section="certifications">
+                    <i class="fas fa-certificate"></i>
+                    <span>Certifications</span>
+                    <div class="section-status"></div>
+                  </div>
+                  <div class="section-item" data-section="interests">
+                    <i class="fas fa-heart"></i>
+                    <span>Interests</span>
+                    <div class="section-status"></div>
+                  </div>
+                  <div class="section-item" data-section="references">
+                    <i class="fas fa-users"></i>
+                    <span>References</span>
+                    <div class="section-status"></div>
+                  </div>
+                </div>
+                <div class="section-reorder-help">
+                  <i class="fas fa-arrows-alt"></i>
+                  <span>Drag sections to reorder</span>
+                </div>
+              </div>
+
+              <div class="sidebar-section">
+                <div class="section-title">
+                  <h3>
+                    <i class="fas fa-magic"></i>
+                    AI Resume Assistant
+                  </h3>
+                </div>
+                <div class="ai-tools">
+                  <button
+                    id="ai-analyze-btn"
+                    class="btn secondary-btn btn-wide"
+                  >
+                    <i class="fas fa-search"></i>
+                    Analyze Resume
+                  </button>
+                  <button
+                    id="ai-improve-btn"
+                    class="btn secondary-btn btn-wide"
+                  >
+                    <i class="fas fa-bolt"></i>
+                    Improve Content
+                  </button>
+                  <button
+                    id="ai-keywords-btn"
+                    class="btn secondary-btn btn-wide"
+                  >
+                    <i class="fas fa-key"></i>
+                    Optimize for ATS
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mobile-sidebar-toggle-container">
+            <button
+              class="btn icon-btn mobile-sidebar-open"
+              id="mobile-sidebar-open"
+            >
+              <i class="fas fa-bars"></i>
+            </button>
+          </div>
+
+          <div class="content">
+            <div class="editor-container">
+              <div class="section-navigation">
+                <button
+                  id="prev-section"
+                  class="btn icon-btn navigation-btn"
+                  disabled
+                >
+                  <i class="fas fa-chevron-left"></i>
+                </button>
+                <h2 id="current-section-title">Personal Information</h2>
+                <button id="next-section" class="btn icon-btn navigation-btn">
+                  <i class="fas fa-chevron-right"></i>
+                </button>
+              </div>
+
+              <div id="personal-section" class="editor-section active">
+                <div class="card">
+                  <div class="form-group">
+                    <label for="fullname">Full Name*</label>
+                    <div class="input-container">
+                      <i class="fas fa-user input-icon"></i>
+                      <input
+                        type="text"
+                        id="fullname"
+                        placeholder="e.g. John Doe"
+                        required
+                      />
+                    </div>
+                    <div class="form-feedback"></div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label for="job-title">Professional Title*</label>
+                      <div class="input-container">
+                        <i class="fas fa-id-badge input-icon"></i>
+                        <input
+                          type="text"
+                          id="job-title"
+                          placeholder="e.g. Software Engineer"
+                          required
+                        />
+                      </div>
+                      <div class="form-feedback"></div>
+                    </div>
+                    <div class="form-group">
+                      <label for="location">Location</label>
+                      <div class="input-container">
+                        <i class="fas fa-map-marker-alt input-icon"></i>
+                        <input
+                          type="text"
+                          id="location"
+                          placeholder="e.g. New York, NY"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label for="email">Email*</label>
+                      <div class="input-container">
+                        <i class="fas fa-envelope input-icon"></i>
+                        <input
+                          type="email"
+                          id="email"
+                          placeholder="e.g. john.doe@example.com"
+                          required
+                        />
+                      </div>
+                      <div class="form-feedback"></div>
+                    </div>
+                    <div class="form-group">
+                      <label for="phone">Phone*</label>
+                      <div class="input-container">
+                        <i class="fas fa-phone input-icon"></i>
+                        <input
+                          type="tel"
+                          id="phone"
+                          placeholder="e.g. (123) 456-7890"
+                          required
+                        />
+                      </div>
+                      <div class="form-feedback"></div>
+                    </div>
+                  </div>
+
+                  <div class="form-section-title">
+                    <h3>Online Presence</h3>
+                  </div>
+
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label for="website">Portfolio/Website</label>
+                      <div class="input-container">
+                        <i class="fas fa-globe input-icon"></i>
+                        <input
+                          type="url"
+                          id="website"
+                          placeholder="e.g. www.johndoe.com"
+                        />
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="linkedin">LinkedIn</label>
+                      <div class="input-container">
+                        <i class="fab fa-linkedin input-icon"></i>
+                        <input
+                          type="url"
+                          id="linkedin"
+                          placeholder="e.g. linkedin.com/in/johndoe"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div id="social-links-container">
+                    <!-- Social links will be added here -->
+                  </div>
+
+                  <button id="add-social-link" class="btn secondary-btn">
+                    <i class="fas fa-plus"></i> Add Social Link
+                  </button>
+
+                  <div class="form-actions">
+                    <div></div>
+                    <button id="personal-next" class="btn primary-btn">
+                      Next: Professional Summary
+                      <i class="fas fa-arrow-right"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div id="summary-section" class="editor-section">
+                <div class="card">
+                  <div class="form-group">
+                    <label for="summary">Professional Summary</label>
+                    <div class="field-with-helper">
+                      <textarea
+                        id="summary"
+                        rows="6"
+                        placeholder="Provide a brief overview of your professional background, key strengths, and career goals. This section should highlight your value to potential employers."
+                      ></textarea>
+                      <div class="text-helper">
+                        <div class="character-counter">
+                          <span id="summary-char-count">0</span>/1500
+                        </div>
+                        <button
+                          id="ai-summary-suggest"
+                          class="btn tertiary-btn"
+                        >
+                          <i class="fas fa-magic"></i> AI Suggestions
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-actions">
+                    <button id="summary-prev" class="btn secondary-btn">
+                      <i class="fas fa-arrow-left"></i> Previous: Personal Info
+                    </button>
+                    <button id="summary-next" class="btn primary-btn">
+                      Next: Work Experience <i class="fas fa-arrow-right"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div id="experience-section" class="editor-section">
+                <div class="empty-state" id="experience-empty-state">
+                  <img
+                    src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 200'><rect x='70' y='30' width='160' height='140' rx='5' fill='%23f5f5f5' stroke='%23ddd' stroke-width='2'/><rect x='90' y='50' width='120' height='15' rx='2' fill='%23e0e0e0'/><rect x='90' y='80' width='80' height='10' rx='2' fill='%23e0e0e0'/><rect x='90' y='100' width='120' height='10' rx='2' fill='%23e0e0e0'/><rect x='90' y='120' width='100' height='10' rx='2' fill='%23e0e0e0'/><rect x='90' y='140' width='60' height='10' rx='2' fill='%23e0e0e0'/></svg>"
+                    alt="No experience"
+                  />
+                  <h3>No work experience added yet</h3>
+                  <p>
+                    Showcase your professional history by adding work experience
+                  </p>
+                  <button id="add-first-experience" class="btn primary-btn">
+                    <i class="fas fa-plus"></i> Add Work Experience
+                  </button>
+                </div>
+
+                <div id="experience-items" class="items-container">
+                  <!-- Experience items will be added here -->
+                </div>
+
+                <div class="add-item-container" id="add-experience-container">
+                  <button id="add-experience" class="btn secondary-btn">
+                    <i class="fas fa-plus"></i> Add Another Position
+                  </button>
+                </div>
+
+                <div class="form-actions" id="experience-actions">
+                  <button id="experience-prev" class="btn secondary-btn">
+                    <i class="fas fa-arrow-left"></i> Previous: Summary
+                  </button>
+                  <button id="experience-next" class="btn primary-btn">
+                    Next: Education <i class="fas fa-arrow-right"></i>
+                  </button>
+                </div>
+              </div>
+
+              <div id="education-section" class="editor-section">
+                <div class="empty-state" id="education-empty-state">
+                  <img
+                    src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 200'><rect x='90' y='30' width='120' height='90' rx='5' fill='%23f5f5f5' stroke='%23ddd' stroke-width='2'/><polygon points='150,20 180,40 150,60 120,40' fill='%23e0e0e0' stroke='%23ddd' stroke-width='2'/><rect x='145' y='60' width='10' height='50' fill='%23e0e0e0'/><rect x='120' y='110' width='60' height='10' rx='5' fill='%23e0e0e0'/><ellipse cx='150' cy='150' rx='40' ry='10' fill='%23f5f5f5' stroke='%23ddd' stroke-width='2'/></svg>"
+                    alt="No education"
+                  />
+                  <h3>No education added yet</h3>
+                  <p>Add your educational background and qualifications</p>
+                  <button id="add-first-education" class="btn primary-btn">
+                    <i class="fas fa-plus"></i> Add Education
+                  </button>
+                </div>
+
+                <div id="education-items" class="items-container">
+                  <!-- Education items will be added here -->
+                </div>
+
+                <div class="add-item-container" id="add-education-container">
+                  <button id="add-education" class="btn secondary-btn">
+                    <i class="fas fa-plus"></i> Add Another Education
+                  </button>
+                </div>
+
+                <div class="form-actions" id="education-actions">
+                  <button id="education-prev" class="btn secondary-btn">
+                    <i class="fas fa-arrow-left"></i> Previous: Experience
+                  </button>
+                  <button id="education-next" class="btn primary-btn">
+                    Next: Skills <i class="fas fa-arrow-right"></i>
+                  </button>
+                </div>
+              </div>
+
+              <div id="skills-section" class="editor-section">
+                <div class="card">
+                  <div class="form-section-title">
+                    <h3>Skills</h3>
+                    <p>
+                      Add skills that are relevant to the position you're
+                      applying for
+                    </p>
+                  </div>
+
+                  <div class="form-group">
+                    <label>Technical & Professional Skills</label>
+                    <div class="chips-input-container">
+                      <div id="skills-chips" class="chips-container"></div>
+                      <div class="input-with-button">
+                        <input
+                          type="text"
+                          id="skills-input"
+                          placeholder="Type a skill and press Enter"
+                        />
+                        <button id="add-skill-btn" class="btn icon-btn">
+                          <i class="fas fa-plus"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="skill-suggestions">
+                    <div class="skill-suggestions-header">
+                      <h4>Suggested Skills</h4>
+                      <button
+                        id="refresh-suggestions"
+                        class="btn icon-btn"
+                        title="Refresh suggestions"
+                      >
+                        <i class="fas fa-sync-alt"></i>
+                      </button>
+                    </div>
+                    <div
+                      class="skill-suggestions-list"
+                      id="skill-suggestions-list"
+                    >
+                      <!-- Skill suggestions will be dynamically added here -->
+                    </div>
+                  </div>
+
+                  <div class="form-group skill-levels-container">
+                    <div class="form-section-title">
+                      <h3>Skill Proficiency</h3>
+                      <div class="form-section-toggle">
+                        <label class="switch">
+                          <input type="checkbox" id="show-skill-levels" />
+                          <span class="slider round"></span>
+                        </label>
+                        <span>Show skill levels</span>
+                      </div>
+                    </div>
+
+                    <div
+                      id="skill-levels-container"
+                      class="skill-levels disabled"
+                    >
+                      <!-- Skill level ratings will be dynamically added here -->
+                      <div class="empty-state-inline">
+                        <p>Add skills above to set proficiency levels</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-actions">
+                    <button id="skills-prev" class="btn secondary-btn">
+                      <i class="fas fa-arrow-left"></i> Previous: Education
+                    </button>
+                    <button id="skills-next" class="btn primary-btn">
+                      Next: Projects <i class="fas fa-arrow-right"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div id="projects-section" class="editor-section">
+                <div class="empty-state" id="projects-empty-state">
+                  <img
+                    src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 200'><rect x='70' y='40' width='160' height='120' rx='5' fill='%23f5f5f5' stroke='%23ddd' stroke-width='2'/><rect x='90' y='60' width='120' height='15' rx='2' fill='%23e0e0e0'/><rect x='90' y='85' width='40' height='10' rx='2' fill='%23e0e0e0'/><circle cx='95' cy='115' r='10' fill='%23e0e0e0'/><circle cx='125' cy='115' r='10' fill='%23e0e0e0'/><circle cx='155' cy='115' r='10' fill='%23e0e0e0'/><rect x='90' y='135' width='80' height='10' rx='2' fill='%23e0e0e0'/></svg>"
+                    alt="No projects"
+                  />
+                  <h3>No projects added yet</h3>
+                  <p>
+                    Showcase your achievements with personal or professional
+                    projects
+                  </p>
+                  <button id="add-first-project" class="btn primary-btn">
+                    <i class="fas fa-plus"></i> Add Project
+                  </button>
+                </div>
+
+                <div id="project-items" class="items-container">
+                  <!-- Project items will be added here -->
+                </div>
+
+                <div class="add-item-container" id="add-project-container">
+                  <button id="add-project" class="btn secondary-btn">
+                    <i class="fas fa-plus"></i> Add Another Project
+                  </button>
+                </div>
+
+                <div class="form-actions" id="projects-actions">
+                  <button id="projects-prev" class="btn secondary-btn">
+                    <i class="fas fa-arrow-left"></i> Previous: Skills
+                  </button>
+                  <button id="projects-next" class="btn primary-btn">
+                    Next: Languages <i class="fas fa-arrow-right"></i>
+                  </button>
+                </div>
+              </div>
+
+              <div id="languages-section" class="editor-section">
+                <div class="empty-state" id="languages-empty-state">
+                  <img
+                    src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 200'><circle cx='150' cy='100' r='60' fill='%23f5f5f5' stroke='%23ddd' stroke-width='2'/><path d='M150,40 a60,60 0 0 1 0,120 a60,60 0 0 1 0,-120' fill='none' stroke='%23e0e0e0' stroke-width='4'/><rect x='90' y='90' width='40' height='20' rx='5' fill='white' stroke='%23ddd' stroke-width='1'/><rect x='140' y='90' width='40' height='20' rx='5' fill='white' stroke='%23ddd' stroke-width='1'/><rect x='190' y='90' width='40' height='20' rx='5' fill='white' stroke='%23ddd' stroke-width='1'/></svg>"
+                    alt="No languages"
+                  />
+                  <h3>No languages added yet</h3>
+                  <p>Add languages you speak and your proficiency level</p>
+                  <button id="add-first-language" class="btn primary-btn">
+                    <i class="fas fa-plus"></i> Add Language
+                  </button>
+                </div>
+
+                <div id="language-items" class="items-container">
+                  <!-- Language items will be added here -->
+                </div>
+
+                <div class="add-item-container" id="add-language-container">
+                  <button id="add-language" class="btn secondary-btn">
+                    <i class="fas fa-plus"></i> Add Another Language
+                  </button>
+                </div>
+
+                <div class="form-actions" id="languages-actions">
+                  <button id="languages-prev" class="btn secondary-btn">
+                    <i class="fas fa-arrow-left"></i> Previous: Projects
+                  </button>
+                  <button id="languages-next" class="btn primary-btn">
+                    Next: Certifications <i class="fas fa-arrow-right"></i>
+                  </button>
+                </div>
+              </div>
+
+              <div id="certifications-section" class="editor-section">
+                <div class="empty-state" id="certifications-empty-state">
+                  <img
+                    src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 200'><path d='M100,50 h100 v80 h-100 z' fill='%23f5f5f5' stroke='%23ddd' stroke-width='2'/><path d='M110,70 h80 M110,90 h80 M110,110 h50' stroke='%23e0e0e0' stroke-width='4'/><circle cx='200' cy='140' r='30' fill='%23f5f5f5' stroke='%23ddd' stroke-width='2'/><path d='M185,140 h30 M200,125 v30' stroke='%23e0e0e0' stroke-width='4'/></svg>"
+                    alt="No certifications"
+                  />
+                  <h3>No certifications added yet</h3>
+                  <p>
+                    Add professional certifications to showcase your expertise
+                  </p>
+                  <button id="add-first-certification" class="btn primary-btn">
+                    <i class="fas fa-plus"></i> Add Certification
+                  </button>
+                </div>
+
+                <div id="certification-items" class="items-container">
+                  <!-- Certification items will be added here -->
+                </div>
+
+                <div
+                  class="add-item-container"
+                  id="add-certification-container"
+                >
+                  <button id="add-certification" class="btn secondary-btn">
+                    <i class="fas fa-plus"></i> Add Another Certification
+                  </button>
+                </div>
+
+                <div class="form-actions" id="certifications-actions">
+                  <button id="certifications-prev" class="btn secondary-btn">
+                    <i class="fas fa-arrow-left"></i> Previous: Languages
+                  </button>
+                  <button id="certifications-next" class="btn primary-btn">
+                    Next: Interests <i class="fas fa-arrow-right"></i>
+                  </button>
+                </div>
+              </div>
+
+              <div id="interests-section" class="editor-section">
+                <div class="card">
+                  <div class="form-section-title">
+                    <h3>Interests & Hobbies</h3>
+                    <div class="form-section-toggle">
+                      <label class="switch">
+                        <input type="checkbox" id="show-interests" checked />
+                        <span class="slider round"></span>
+                      </label>
+                      <span>Include in resume</span>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label
+                      >Add your interests or hobbies (separated by
+                      commas)</label
+                    >
+                    <div class="chips-input-container">
+                      <div id="interests-chips" class="chips-container"></div>
+                      <div class="input-with-button">
+                        <input
+                          type="text"
+                          id="interests-input"
+                          placeholder="Type an interest and press Enter"
+                        />
+                        <button id="add-interest-btn" class="btn icon-btn">
+                          <i class="fas fa-plus"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-actions">
+                    <button id="interests-prev" class="btn secondary-btn">
+                      <i class="fas fa-arrow-left"></i> Previous: Certifications
+                    </button>
+                    <button id="interests-next" class="btn primary-btn">
+                      Next: References <i class="fas fa-arrow-right"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div id="references-section" class="editor-section">
+                <div class="card">
+                  <div class="form-section-title">
+                    <h3>References</h3>
+                    <div class="form-section-toggle">
+                      <label class="switch">
+                        <input type="checkbox" id="show-references" />
+                        <span class="slider round"></span>
+                      </label>
+                      <span>Include in resume</span>
+                    </div>
+                  </div>
+
+                  <div class="reference-option-container">
+                    <div class="reference-option active" data-option="provide">
+                      <input
+                        type="radio"
+                        name="reference-option"
+                        id="provide-references"
+                        checked
+                      />
+                      <label for="provide-references">Provide references</label>
+                    </div>
+                    <div class="reference-option" data-option="available">
+                      <input
+                        type="radio"
+                        name="reference-option"
+                        id="available-request"
+                      />
+                      <label for="available-request"
+                        >References available upon request</label
+                      >
+                    </div>
+                  </div>
+
+                  <div id="references-container">
+                    <div class="empty-state" id="references-empty-state">
+                      <h3>No references added yet</h3>
+                      <p>
+                        Add professional references to strengthen your
+                        application
+                      </p>
+                      <button id="add-first-reference" class="btn primary-btn">
+                        <i class="fas fa-plus"></i> Add Reference
+                      </button>
+                    </div>
+
+                    <div id="reference-items" class="items-container">
+                      <!-- Reference items will be added here -->
+                    </div>
+
+                    <div
+                      class="add-item-container"
+                      id="add-reference-container"
+                    >
+                      <button id="add-reference" class="btn secondary-btn">
+                        <i class="fas fa-plus"></i> Add Another Reference
+                      </button>
+                    </div>
+                  </div>
+
+                  <div class="form-actions">
+                    <button id="references-prev" class="btn secondary-btn">
+                      <i class="fas fa-arrow-left"></i> Previous: Interests
+                    </button>
+                    <button id="references-finalize" class="btn primary-btn">
+                      Finalize Resume <i class="fas fa-check"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="preview-container">
+              <div class="preview-header">
+                <h2>Resume Preview</h2>
+                <div class="preview-actions">
+                  <button
+                    id="refresh-preview"
+                    class="btn icon-btn"
+                    title="Refresh preview"
+                  >
+                    <i class="fas fa-sync-alt"></i>
+                  </button>
+                  <button
+                    id="preview-toggle"
+                    class="btn icon-btn"
+                    title="Expand preview"
+                  >
+                    <i class="fas fa-expand"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="preview-content">
+                <div class="resume-score-container">
+                  <div class="resume-score">
+                    <div class="score-circle">
+                      <svg viewBox="0 0 36 36" class="circular-chart">
+                        <path
+                          class="circle-bg"
+                          d="M18 2.0845
+                                                a 15.9155 15.9155 0 0 1 0 31.831
+                                                a 15.9155 15.9155 0 0 1 0 -31.831"
+                        ></path>
+                        <path
+                          class="circle"
+                          stroke-dasharray="75, 100"
+                          d="M18 2.0845
+                                                a 15.9155 15.9155 0 0 1 0 31.831
+                                                a 15.9155 15.9155 0 0 1 0 -31.831"
+                        ></path>
+                        <text x="18" y="20.35" class="percentage">75%</text>
+                      </svg>
+                    </div>
+                    <div class="score-label">Resume Score</div>
+                  </div>
+                  <div class="score-tips">
+                    <div class="tip-item">
+                      <i class="fas fa-info-circle"></i>
+                      <span>Add more skills to improve your score</span>
+                    </div>
+                    <div class="tip-item">
+                      <i class="fas fa-info-circle"></i>
+                      <span>Use action verbs in your experience</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div id="resume-preview">
+                  <div class="resume professional">
+                    <div class="resume-header">
+                      <h1 id="preview-name">Your Name</h1>
+                      <p id="preview-title">Your Professional Title</p>
+                      <div class="contact-info">
+                        <span id="preview-email"
+                          ><i class="fas fa-envelope"></i>
+                          email@example.com</span
+                        >
+                        <span id="preview-phone"
+                          ><i class="fas fa-phone"></i> (123) 456-7890</span
+                        >
+                        <span id="preview-location"
+                          ><i class="fas fa-map-marker-alt"></i> City,
+                          State</span
+                        >
+                        <span id="preview-website"
+                          ><i class="fas fa-globe"></i> website.com</span
+                        >
+                        <span id="preview-linkedin"
+                          ><i class="fab fa-linkedin"></i> LinkedIn</span
+                        >
+                      </div>
+                    </div>
+                    <div id="preview-summary-section" class="resume-section">
+                      <h2 class="section-title">Professional Summary</h2>
+                      <p id="preview-summary">
+                        A brief summary of your professional background and
+                        career goals.
+                      </p>
+                    </div>
+                    <div id="preview-experience-section" class="resume-section">
+                      <h2 class="section-title">Work Experience</h2>
+                      <div id="preview-experience" class="section-content">
+                        <p class="empty-section-placeholder">
+                          No work experience added yet
+                        </p>
+                      </div>
+                    </div>
+                    <div id="preview-education-section" class="resume-section">
+                      <h2 class="section-title">Education</h2>
+                      <div id="preview-education" class="section-content">
+                        <p class="empty-section-placeholder">
+                          No education added yet
+                        </p>
+                      </div>
+                    </div>
+                    <div id="preview-skills-section" class="resume-section">
+                      <h2 class="section-title">Skills</h2>
+                      <div
+                        id="preview-skills"
+                        class="section-content skills-list"
+                      >
+                        <p class="empty-section-placeholder">
+                          No skills added yet
+                        </p>
+                      </div>
+                    </div>
+                    <div id="preview-projects-section" class="resume-section">
+                      <h2 class="section-title">Projects</h2>
+                      <div id="preview-projects" class="section-content">
+                        <p class="empty-section-placeholder">
+                          No projects added yet
+                        </p>
+                      </div>
+                    </div>
+                    <div id="preview-languages-section" class="resume-section">
+                      <h2 class="section-title">Languages</h2>
+                      <div id="preview-languages" class="section-content">
+                        <p class="empty-section-placeholder">
+                          No languages added yet
+                        </p>
+                      </div>
+                    </div>
+                    <div
+                      id="preview-certifications-section"
+                      class="resume-section"
+                    >
+                      <h2 class="section-title">Certifications</h2>
+                      <div id="preview-certifications" class="section-content">
+                        <p class="empty-section-placeholder">
+                          No certifications added yet
+                        </p>
+                      </div>
+                    </div>
+                    <div id="preview-interests-section" class="resume-section">
+                      <h2 class="section-title">Interests</h2>
+                      <div id="preview-interests" class="section-content">
+                        <p class="empty-section-placeholder">
+                          No interests added yet
+                        </p>
+                      </div>
+                    </div>
+                    <div id="preview-references-section" class="resume-section">
+                      <h2 class="section-title">References</h2>
+                      <div id="preview-references" class="section-content">
+                        <p class="references-available">
+                          References available upon request
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <!-- Modal Templates -->
+      <div class="modal" id="save-modal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3>Save Resume</h3>
+            <button class="close-modal">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="resume-name">Resume Name</label>
+              <input
+                type="text"
+                id="resume-name"
+                placeholder="e.g. Software Engineer Resume"
+              />
+            </div>
+            <div class="form-group">
+              <label for="resume-description">Description (optional)</label>
+              <textarea
+                id="resume-description"
+                rows="3"
+                placeholder="Add notes about this resume version"
+              ></textarea>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn secondary-btn modal-cancel">Cancel</button>
+            <button class="btn primary-btn" id="confirm-save">
+              Save Resume
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal" id="ai-suggestions-modal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3>AI Content Suggestions</h3>
+            <button class="close-modal">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="ai-suggestions-tabs">
+              <button class="ai-tab active" data-tab="professional">
+                Professional
+              </button>
+              <button class="ai-tab" data-tab="achievement">
+                Achievement-focused
+              </button>
+              <button class="ai-tab" data-tab="concise">Concise</button>
+            </div>
+
+            <div class="ai-suggestions-content">
+              <div class="ai-tab-content active" data-content="professional">
+                <!-- AI generated professional content -->
+                <div class="ai-suggestion">
+                  <p>
+                    Experienced software engineer with 5+ years developing
+                    scalable web applications using modern JavaScript
+                    frameworks. Proven track record of optimizing application
+                    performance and implementing best practices in code
+                    organization. Collaborative team player with strong
+                    problem-solving abilities and a passion for creating
+                    intuitive user experiences.
+                  </p>
+                  <button class="btn secondary-btn use-suggestion">
+                    Use This
+                  </button>
+                </div>
+              </div>
+              <div class="ai-tab-content" data-content="achievement">
+                <!-- AI generated achievement-focused content -->
+                <div class="ai-suggestion">
+                  <p>
+                    Results-driven software engineer who increased application
+                    performance by 35% through code optimization and
+                    architectural improvements. Successfully delivered 12 major
+                    features on time and under budget, resulting in a 20%
+                    increase in user engagement. Recipient of the Exceptional
+                    Contributor award for developing an automated testing
+                    framework that reduced QA time by 40%.
+                  </p>
+                  <button class="btn secondary-btn use-suggestion">
+                    Use This
+                  </button>
+                </div>
+              </div>
+              <div class="ai-tab-content" data-content="concise">
+                <!-- AI generated concise content -->
+                <div class="ai-suggestion">
+                  <p>
+                    Software engineer specializing in JavaScript frameworks and
+                    application optimization. Focused on clean code, performance
+                    improvements, and intuitive UX. Strong problem-solver with
+                    team collaboration skills.
+                  </p>
+                  <button class="btn secondary-btn use-suggestion">
+                    Use This
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="custom-ai-prompt">
+              <label for="custom-prompt">Generate custom content:</label>
+              <div class="input-with-button">
+                <input
+                  type="text"
+                  id="custom-prompt"
+                  placeholder="e.g. More focus on leadership skills"
+                />
+                <button class="btn primary-btn" id="generate-custom">
+                  Generate
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal" id="ai-analysis-modal">
+        <div class="modal-content modal-large">
+          <div class="modal-header">
+            <h3>Resume Analysis</h3>
+            <button class="close-modal">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="analysis-summary">
+              <div class="analysis-score">
+                <svg viewBox="0 0 36 36" class="circular-chart">
+                  <path
+                    class="circle-bg"
+                    d="M18 2.0845
+                                    a 15.9155 15.9155 0 0 1 0 31.831
+                                    a 15.9155 15.9155 0 0 1 0 -31.831"
+                  ></path>
+                  <path
+                    class="circle"
+                    stroke-dasharray="75, 100"
+                    d="M18 2.0845
+                                    a 15.9155 15.9155 0 0 1 0 31.831
+                                    a 15.9155 15.9155 0 0 1 0 -31.831"
+                  ></path>
+                  <text x="18" y="20.35" class="percentage">75%</text>
+                </svg>
+                <h4>Overall Score</h4>
+              </div>
+              <div class="analysis-metrics">
+                <div class="metric">
+                  <div class="metric-name">ATS Compatibility</div>
+                  <div class="progress-bar">
+                    <div class="progress" style="width: 80%"></div>
+                  </div>
+                  <div class="metric-score">8/10</div>
+                </div>
+                <div class="metric">
+                  <div class="metric-name">Content Quality</div>
+                  <div class="progress-bar">
+                    <div class="progress" style="width: 70%"></div>
+                  </div>
+                  <div class="metric-score">7/10</div>
+                </div>
+                <div class="metric">
+                  <div class="metric-name">Format & Layout</div>
+                  <div class="progress-bar">
+                    <div class="progress" style="width: 90%"></div>
+                  </div>
+                  <div class="metric-score">9/10</div>
+                </div>
+                <div class="metric">
+                  <div class="metric-name">Completeness</div>
+                  <div class="progress-bar">
+                    <div class="progress" style="width: 60%"></div>
+                  </div>
+                  <div class="metric-score">6/10</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="analysis-details">
+              <h4>Detailed Analysis</h4>
+
+              <div class="analysis-section">
+                <div class="analysis-section-header">
+                  <h5>
+                    <i class="fas fa-check-circle"></i>
+                    Strengths
+                  </h5>
+                </div>
+                <ul class="analysis-list strengths">
+                  <li>
+                    Strong professional summary that highlights key
+                    qualifications
+                  </li>
+                  <li>Good use of action verbs in experience descriptions</li>
+                  <li>Education section is well-formatted and complete</li>
+                  <li>Clean and professional template choice</li>
+                </ul>
+              </div>
+
+              <div class="analysis-section">
+                <div class="analysis-section-header">
+                  <h5>
+                    <i class="fas fa-exclamation-triangle"></i>
+                    Areas for Improvement
+                  </h5>
+                </div>
+                <ul class="analysis-list improvements">
+                  <li>
+                    <div class="improvement-item">
+                      <div class="improvement-text">
+                        Add more technical skills to boost ATS compatibility
+                      </div>
+                      <button class="btn tertiary-btn improvement-action">
+                        Fix Now
+                      </button>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="improvement-item">
+                      <div class="improvement-text">
+                        Quantify achievements in your work experience with
+                        specific metrics
+                      </div>
+                      <button class="btn tertiary-btn improvement-action">
+                        Fix Now
+                      </button>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="improvement-item">
+                      <div class="improvement-text">
+                        Add certifications to strengthen your qualifications
+                      </div>
+                      <button class="btn tertiary-btn improvement-action">
+                        Fix Now
+                      </button>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="improvement-item">
+                      <div class="improvement-text">
+                        Some bullet points are too long, consider breaking them
+                        down
+                      </div>
+                      <button class="btn tertiary-btn improvement-action">
+                        Fix Now
+                      </button>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+
+              <div class="analysis-section">
+                <div class="analysis-section-header">
+                  <h5>
+                    <i class="fas fa-key"></i>
+                    ATS Keywords
+                  </h5>
+                </div>
+                <div class="keywords-container">
+                  <div class="keyword-info">
+                    <p>
+                      Based on your target role, these keywords are recommended
+                      for ATS optimization:
+                    </p>
+                  </div>
+                  <div class="keyword-tags">
+                    <span class="keyword-tag present">JavaScript</span>
+                    <span class="keyword-tag present">React</span>
+                    <span class="keyword-tag missing">API Development</span>
+                    <span class="keyword-tag present">Node.js</span>
+                    <span class="keyword-tag missing">CI/CD</span>
+                    <span class="keyword-tag missing">Agile</span>
+                    <span class="keyword-tag present">Git</span>
+                    <span class="keyword-tag missing">Docker</span>
+                    <span class="keyword-tag present">TypeScript</span>
+                    <span class="keyword-tag missing">AWS</span>
+                  </div>
+                  <button class="btn secondary-btn keyword-action">
+                    Add Missing Keywords
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn secondary-btn modal-cancel">Close</button>
+            <button class="btn primary-btn" id="apply-all-suggestions">
+              Apply All Suggestions
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal" id="experience-modal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3>Add Work Experience</h3>
+            <button class="close-modal">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="exp-job-title">Job Title*</label>
+              <input
+                type="text"
+                id="exp-job-title"
+                placeholder="e.g. Software Engineer"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="exp-company">Company*</label>
+              <input
+                type="text"
+                id="exp-company"
+                placeholder="e.g. Tech Solutions Inc."
+                required
+              />
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="exp-start-date">Start Date*</label>
+                <input type="month" id="exp-start-date" required />
+              </div>
+              <div class="form-group">
+                <label for="exp-end-date">End Date</label>
+                <input type="month" id="exp-end-date" />
+              </div>
+            </div>
+            <div class="form-group checkbox-group">
+              <input type="checkbox" id="exp-current-job" />
+              <label for="exp-current-job">Current Position</label>
+            </div>
+            <div class="form-group">
+              <label for="exp-location">Location</label>
+              <input
+                type="text"
+                id="exp-location"
+                placeholder="e.g. New York, NY"
+              />
+            </div>
+            <div class="form-group">
+              <label for="exp-description">Description and Achievements*</label>
+              <div class="rich-editor-container">
+                <div class="rich-editor-toolbar">
+                  <button class="editor-btn" data-command="bold" title="Bold">
+                    <i class="fas fa-bold"></i>
+                  </button>
+                  <button
+                    class="editor-btn"
+                    data-command="italic"
+                    title="Italic"
+                  >
+                    <i class="fas fa-italic"></i>
+                  </button>
+                  <button
+                    class="editor-btn"
+                    data-command="insertUnorderedList"
+                    title="Bullet List"
+                  >
+                    <i class="fas fa-list-ul"></i>
+                  </button>
+                  <div class="editor-separator"></div>
+                  <button
+                    class="editor-btn ai-suggestion"
+                    title="AI Suggestions"
+                  >
+                    <i class="fas fa-magic"></i>
+                  </button>
+                </div>
+                <div class="bullet-point-tips">
+                  <i class="fas fa-lightbulb"></i>
+                  <span
+                    >Use bullet points and start with
+                    <strong>action verbs</strong>. Include measurable
+                    achievements.</span
+                  >
+                </div>
+                <div
+                  id="exp-description-editor"
+                  class="rich-editor"
+                  contenteditable="true"
+                ></div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn secondary-btn modal-cancel">Cancel</button>
+            <button class="btn primary-btn" id="save-experience">Save</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="toast" id="toast">
+        <div class="toast-content">
+          <div class="toast-icon">
+            <i class="fas fa-check-circle"></i>
+          </div>
+          <div class="toast-message">
+            <div class="toast-title">Success!</div>
+            <div class="toast-text">Your resume was saved successfully.</div>
+          </div>
+        </div>
+        <button class="toast-close">
+          <i class="fas fa-times"></i>
+        </button>
+        <div class="toast-progress"></div>
+      </div>
+
+      <div class="ai-loading-overlay" id="ai-loading-overlay">
+        <div class="ai-loading-spinner">
+          <div class="spinner-inner"></div>
+        </div>
+        <div class="ai-loading-text">AI is analyzing your resume...</div>
+      </div>
+    </div>
+
+    <div class="import-file-overlay" id="import-file-overlay">
+      <div class="import-file-container">
+        <div class="import-header">
+          <h2>Import Resume</h2>
+          <button class="close-import">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="import-body">
+          <div class="import-drop-area" id="import-drop-area">
+            <i class="fas fa-cloud-upload-alt"></i>
+            <h3>Drag & Drop Files Here</h3>
+            <p>or</p>
+            <label for="import-file-input" class="btn primary-btn"
+              >Browse Files</label
+            >
+            <input
+              type="file"
+              id="import-file-input"
+              accept=".pdf,.docx,.doc,.txt,.json"
+              hidden
+            />
+            <p class="import-file-types">
+              Supported formats: PDF, DOCX, TXT, Resume Genius format
+            </p>
+          </div>
+          <div class="import-options">
+            <h3>Import Options</h3>
+            <div class="import-option">
+              <input type="checkbox" id="import-option-overwrite" checked />
+              <label for="import-option-overwrite"
+                >Overwrite current resume</label
+              >
+            </div>
+            <div class="import-option">
+              <input type="checkbox" id="import-option-ai-enhance" />
+              <label for="import-option-ai-enhance"
+                >Use AI to enhance content</label
+              >
+            </div>
+          </div>
+        </div>
+        <div class="import-footer">
+          <button class="btn secondary-btn close-import">Cancel</button>
+          <button class="btn primary-btn" id="start-import" disabled>
+            Import
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html-docx-js/0.3.1/html-docx.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
